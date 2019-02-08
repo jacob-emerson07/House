@@ -7,7 +7,7 @@ class Mover extends Thing{
     this.w=50;
     this.h=60;
     this.vx = 0;
-    this.vy = -6;
+    this.vy = 0;
     this.moveSpeed = 3;
     this.update = this.updatePlatformer;
     this.moveAnimation=0;
@@ -84,7 +84,7 @@ class Mover extends Thing{
     this.vx = inputX*this.moveSpeed;
     this.x += this.vx;
     this.y += this.vy;
-    this.vy += 0.2;
+    this.vy += 0;
     if(this.y>CE.height*.8) {
       this.y = CE.height*.8;
       this.vy = 0;
