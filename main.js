@@ -35,7 +35,23 @@ function drawHouse(x,y,w,h,style1,style2) {
   canvas.fillRect(x+w*.2,y+h/2+h/6,w/5,h/6);
 }
 
-
+class Thing {
+  constructor() {
+    this.scale = 1;
+    this.angle = 0;
+  }
+  update() {}
+  draw() {
+    const {x,y,w,h} = this;
+    canvas.save();
+    canvas.translate(x,y);
+    canvas.scale(this.scale,this.scale);
+    canvas.rotate(this.angle);
+    canvas.translate(-w/2,-h/2);
+    this.drawShape(0,0,w,h,this.color);
+    canvas.restore();
+  }
+}
 
 class Clickable extends Thing{
   constructor(x,y) {
