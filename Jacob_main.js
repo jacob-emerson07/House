@@ -250,8 +250,14 @@ function spawnEnemy() {
   } else if(spawnCount == 40) {
     spawnTime = 500;
   } else {
+	  if(spawnLevel == 1){
     entities.push(new boxBoss(x,y));
     spawnCount = -1;
+	  }
+	  else if(spawnLevel == 2){
+	entities.push(new HouseBoss(x,y))
+	spawnCount = -1
+	  }
   }
 }
 
@@ -298,9 +304,10 @@ function update() {
       frameCount = 0;
     }
   }
+// THIS IS WHERE EVERYTHING ENDS
   if(started==2&&frameCount>100) {
     canvas.globalAlpha = 1;
-    start();
+    start2();
   }
   if(spawnCount==-1&&enemies.length==0) {
     win=true;
@@ -385,6 +392,22 @@ function start() {
   playerBullets = [];
   spawnCount = 0;
   spawnTime = 50;
+  spawnLevel = 1;
+  spawnTimer = 0;
+  frameCount = 0;
+  lifeBlink = 0;
+  touchOn = false;
+  win = false;
+  started = false;
+  entities.push(new HouseButton(CE.width/2,CE.height/2));
+}
+function start2() {
+  entities = [];
+  enemies = [];
+  playerBullets = [];
+  spawnCount = 0;
+  spawnTime = 50;
+  spawnLevel = 2;
   spawnTimer = 0;
   frameCount = 0;
   lifeBlink = 0;

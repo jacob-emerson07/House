@@ -230,6 +230,7 @@ SOUNDS.coin = dup('houseq.wav', 3, 2,3);
 SOUNDS.health = dup('houseq.wav', 2, 2,3);
 SOUNDS.enemyDie = new SoundTag('houseyeah.wav', 1.5,1.5);
 SOUNDS.bossSpawn = new SoundTag('HOUSUU.wav', 1,1);
+SOUNDS.boxbossSpawn = new SoundTag('BOXSUU.wav', 1, 1)
 // var music = new SoundTag('Adventure.mp3');
 // var dieSound = new SoundTag('die.wav', 1, 0.2);
 // var hitSound = new SoundTag('hit2.wav', 1, 0.4);

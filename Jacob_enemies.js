@@ -227,7 +227,7 @@ class boxBoss extends Enemy {
     this.drawShape = drawBox;
     this.life = 100;
     this.speed = 1.15;
-    SOUNDS.bossSpawn.play();
+    SOUNDS.boxbossSpawn.play();
     this.state = 0;
     this.stateTimer = 200;
     this.dx = 0;
@@ -258,7 +258,7 @@ class boxBoss extends Enemy {
       }
     }
     if(this.state==0) {
-      this.speed = 1;
+      this.speed = 1.15;
       this.w += (this._w-this.w)/3;
       this.h += (this._h-this.h)/3;
     } else if(this.state==1) {

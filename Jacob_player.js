@@ -20,7 +20,7 @@ class Mover extends Thing{
     this.coins = 0;
     this.moveFrame = 0;
     this.shooting = false;
-    this.shootupgrade = 0;
+    this.shootupgrade = 1;
     this.shootTimer = 0;
   }
   hit() {
