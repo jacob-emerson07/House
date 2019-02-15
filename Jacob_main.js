@@ -258,6 +258,9 @@ function spawnEnemy() {
 	entities.push(new HouseBoss(x,y))
 	spawnCount = -1
 	  }
+	  else if(spawnLevel == 3){
+	entities.push(new mansionBoss(x,y))
+	  }
   }
 }
 
@@ -305,9 +308,15 @@ function update() {
     }
   }
 // THIS IS WHERE EVERYTHING ENDS
-  if(started==2&&frameCount>100) {
+  if(started==2&&frameCount>100){
     canvas.globalAlpha = 1;
-    start2();
+    spawnLevel +=1
+    if(spawnLevel==4){
+    	start(1)
+    }
+    else{
+    	start(spawnLevel);
+    }
   }
   if(spawnCount==-1&&enemies.length==0) {
     win=true;
@@ -386,28 +395,13 @@ function touchDraw() {
 }
 var lifeBlink;
 var win;
-function start() {
+function start(x) {
   entities = [];
   enemies = [];
   playerBullets = [];
   spawnCount = 0;
   spawnTime = 50;
-  spawnLevel = 1;
-  spawnTimer = 0;
-  frameCount = 0;
-  lifeBlink = 0;
-  touchOn = false;
-  win = false;
-  started = false;
-  entities.push(new HouseButton(CE.width/2,CE.height/2));
-}
-function start2() {
-  entities = [];
-  enemies = [];
-  playerBullets = [];
-  spawnCount = 0;
-  spawnTime = 50;
-  spawnLevel = 2;
+  spawnLevel = x;
   spawnTimer = 0;
   frameCount = 0;
   lifeBlink = 0;
@@ -419,7 +413,7 @@ function start2() {
 function setup() {
   setInterval(update, 1000/60);
   draw();
-  start();
+  start(1);
 }
 
 function onmousemove(e) {
