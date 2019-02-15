@@ -292,7 +292,7 @@ class mansionBoss extends Enemy {
     this.h = 70;
     this.color = 'green';
     this.drawShape = drawHouse;
-    this.life = 10000;
+    this.life = 1000;
     this.speed = .5;
     SOUNDS.boxbossSpawn.play();
     entities.push(new boxBoss(this.x,this.y));

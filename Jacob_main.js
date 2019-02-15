@@ -106,7 +106,14 @@ class HouseButton extends Clickable {
   }
   clicked() {
     this.shouldDelete = true;
-    entities.push(new Mover(this.x,this.y));
+    if(spawnLevel==1){
+        window.test = new Mover(this.x,this.y);
+
+    }
+    else{
+    	window.test = new Mover(this.x,this.y, coinCount);
+    }
+    entities.push(test);
     mouse.down = false;
     SOUNDS.start.play();
     started = true;
@@ -311,6 +318,7 @@ function update() {
   if(started==2&&frameCount>100){
     canvas.globalAlpha = 1;
     spawnLevel +=1
+    window.coinCount = test.coins
     if(spawnLevel==4){
     	start(1)
     }
@@ -395,13 +403,13 @@ function touchDraw() {
 }
 var lifeBlink;
 var win;
-function start(x) {
+function start(level) {
   entities = [];
   enemies = [];
   playerBullets = [];
   spawnCount = 0;
   spawnTime = 50;
-  spawnLevel = x;
+  spawnLevel = level;
   spawnTimer = 0;
   frameCount = 0;
   lifeBlink = 0;

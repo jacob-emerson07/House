@@ -1,6 +1,6 @@
 //Player
 class Mover extends Thing{
-  constructor(x,y) {
+  constructor(x,y,z=0) {
     super();
     this.x=x;
     this.y=y;
@@ -17,7 +17,7 @@ class Mover extends Thing{
     player = this;
     this.invul = 0;
     this.moving = false;
-    this.coins = 0;
+    this.coins = 0 + z;
     this.moveFrame = 0;
     this.shooting = false;
     this.shootupgrade = 1;
