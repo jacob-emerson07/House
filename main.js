@@ -34,86 +34,12 @@ function drawHouse(x,y,w,h,style1,style2) {
   canvas.fillRect(x+w*.6,y+h/2+h/6,w/4,h*2/6);
   canvas.fillRect(x+w*.2,y+h/2+h/6,w/5,h/6);
 }
-
-class Thing {
-  constructor() {
-    this.scale = 1;
-    this.angle = 0;
-  }
-  update() {}
-  draw() {
-    const {x,y,w,h} = this;
-    canvas.save();
-    canvas.translate(x,y);
-    canvas.scale(this.scale,this.scale);
-    canvas.rotate(this.angle);
-    canvas.translate(-w/2,-h/2);
-    this.drawShape(0,0,w,h,this.color);
-    canvas.restore();
-  }
-}
-
-class Clickable extends Thing{
-  constructor(x,y) {
-    super();
-    this.x=x;
-    this.y=y;
-  }
-  contains(x,y) {
-    return x>=this.x-this.w/2&&x<=this.x+this.w/2&&
-      y>=this.y-this.h/2&&y<=this.y+this.h/2;
-  }
-  moused() {
-    return this.contains(mouse.x,mouse.y);
-  }
-  clicked() {
-
-  }
-  update() {
-    // this.scale+=0.1;)
-    if(this.moused()) {
-      this.scale += (1.2-this.scale)/3;
-      if(mouse.down) {
-        this.clicked();
-      }
-    } else {
-      this.scale += (1-this.scale)/3;
-    }
-  }
-}
-
-class HouseButton extends Clickable {
-  constructor(x,y) {
-    super(x,y);
-    this.w=50;
-    this.h=60;
-    // this.drawShape=drawHouse;
-    this.d = 100;
-  }
-  update() {
-    this.d += (0-this.d)/50;
-    // if(this.d>0)
-    // this.d-=1;
-    if(touchOn) this.clicked();
-    super.update();
-  }
-  clicked() {
-    this.shouldDelete = true;
-    entities.push(new Mover(this.x,this.y));
-    mouse.down = false;
-    SOUNDS.start.play();
-    started = true;
-    frameCount=0;
-  }
-  drawShape(x,y,w,h,style1,style2) {
-    var d = this.d;
-    canvas.fillStyle = style1||'white';
-    canvas.fillRect(x,y+h/2+d,w,h/2);
-    canvas.fillTriangle(x+-w/10,y+h/2+1-d,w+w*2/10,-h/2);
-    canvas.fillStyle = style2||'black';
-    canvas.fillRect(x+w*.6,y+h/2+h/6+d*2,w/4,h*2/6);
-    canvas.fillRect(x+w*.2,y+h/2+h/6+d*3,w/5,h/6);
-  }
+function drawBox(x,y,w,h,style1,style2) {
+  canvas.fillStyle = style1||'brown';
+  canvas.fillRect(x,y,w,h);
+  canvas.fillStyle = style2||'brown';
+  canvas.fillRect(x+w*.6,y+h/2+h/6,w/4,h*2/6);
+  canvas.fillRect(x+w*.2,y+h/2+h/6,w/5,h/6);
 }
 
 function getAxes() {
@@ -126,73 +52,6 @@ function getAxes() {
   var inputX = (keys[68]||keys[39])-(keys[65]||keys[37]);
   var inputY = (keys[83]||keys[40])-(keys[87]||keys[38]);
   return {inputX, inputY};
-}
-
-
-
-class Coin extends Thing {
-  constructor(x,y,angle,r) {
-    super();
-    this.x=x;
-    this.y=y;
-    this.w = 25;
-    this.h = 30;
-    this.color = 'gold';
-    this.drawShape = drawHouse;
-    this._w = this.w;
-    this.frame = Math.floor(Math.random()*10);
-    this.vx = Math.cos(angle)*r*3;
-    this.vy = Math.sin(angle)*r*3;
-    this.vz = -4+Math.random();
-    this.z = 0;
-    this.falling = true;
-  }
-  update() {
-    if(this.falling) {
-      this.vz += 0.3;
-      this.x += this.vx;
-      this.y += this.vy+this.vz;
-      this.z+=this.vz;
-      if(this.z>0) {
-        this.falling = false;
-        SOUNDS.coin.play();
-      }
-    }
-    this.frame += 1;
-    this.animate();
-    if(collides(this,player)) {
-      this.pickup();
-      this.shouldDelete = true;
-    }
-
-    if(this.x<0)this.x=0;
-    if(this.x>CE.width)this.x=CE.width;
-    if(this.y<0)this.y=0;
-    if(this.y>CE.height)this.y=CE.height;
-  }
-  animate() {
-    this.w = this._w * Math.cos(this.frame*Math.PI/20);
-  }
-  pickup() {
-    player.coins += 1;
-    SOUNDS.coin.play();
-  }
-}
-
-class Health extends Coin {
-  constructor(x,y,angle,r) {
-    super(x,y,angle,r);
-    this.color = '#f99';
-  }
-  animate() {
-    this.y += Math.cos(this.frame*Math.PI/20);
-  }
-  pickup() {
-    lifeBlink=1;
-    player.life += 5;
-    SOUNDS.health.play();
-    if(player.life>player.maxLife)player.life = player.maxLife;
-  }
 }
 
 function collides(a,b) {
@@ -243,8 +102,17 @@ function spawnEnemy() {
   } else if(spawnCount == 40) {
     spawnTime = 500;
   } else {
-    entities.push(new Boss(x,y));
+	  if(spawnLevel == 1){
+    entities.push(new boxBoss(x,y));
     spawnCount = -1;
+	  }
+	  else if(spawnLevel == 2){
+	entities.push(new HouseBoss(x,y))
+	spawnCount = -1
+	  }
+	  else if(spawnLevel == 3){
+	entities.push(new mansionBoss(x,y))
+	  }
   }
 }
 
@@ -291,9 +159,17 @@ function update() {
       frameCount = 0;
     }
   }
-  if(started==2&&frameCount>100) {
+// THIS IS WHERE EVERYTHING ENDS
+  if(started==2&&frameCount>100){
     canvas.globalAlpha = 1;
-    start();
+    spawnLevel +=1
+    window.coinCount = test.coins
+    if(spawnLevel==4){
+    	start(1)
+    }
+    else{
+    	start(spawnLevel);
+    }
   }
   if(spawnCount==-1&&enemies.length==0) {
     win=true;
@@ -302,6 +178,13 @@ function update() {
   frameCount+=1;
 
 }
+
+function linearMove(start, target, d) {
+  if(target>start+d)return start+d;
+  if(target<start-d)return start-d;
+  return target;
+}
+
 function draw() {
   canvas.clearRect(0,0,CE.width,CE.height);
   if(started==2) canvas.globalAlpha = 1-frameCount/100;
@@ -372,12 +255,13 @@ function touchDraw() {
 }
 var lifeBlink;
 var win;
-function start() {
+function start(level) {
   entities = [];
   enemies = [];
   playerBullets = [];
   spawnCount = 0;
   spawnTime = 50;
+  spawnLevel = level;
   spawnTimer = 0;
   frameCount = 0;
   lifeBlink = 0;
@@ -389,7 +273,7 @@ function start() {
 function setup() {
   setInterval(update, 1000/60);
   draw();
-  start();
+  start(1);
 }
 
 function onmousemove(e) {

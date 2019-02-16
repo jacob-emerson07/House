@@ -1,6 +1,5 @@
-//Player
 class Mover extends Thing{
-  constructor(x,y) {
+  constructor(x,y,z=0) {
     super();
     this.x=x;
     this.y=y;
@@ -11,14 +10,16 @@ class Mover extends Thing{
     this.moveSpeed = 3;
     this.update = this.updatePlatformer;
     this.moveAnimation=0;
-    this.maxLife = 10;
+    this.healthupgrade = 0;
+    this.maxLife = 10 + (this.healthupgrade*5);
     this.life = this.maxLife;
     player = this;
     this.invul = 0;
     this.moving = false;
-    this.coins = 0;
+    this.coins = 0 + z;
     this.moveFrame = 0;
     this.shooting = false;
+    this.shootupgrade = 1;
     this.shootTimer = 0;
   }
   hit() {
@@ -55,7 +56,7 @@ class Mover extends Thing{
   }
   doShoot() {
     if(win) return;
-    if(this.shooting&&this.shootTimer%10==0) {
+    if(this.shooting&&this.shootTimer%10==0&&this.shootupgrade==0) {
       var b = new Bullet(
         this.x + Math.cos(this.aimAngle)*50,
         this.y + Math.sin(this.aimAngle)*50,
@@ -63,6 +64,20 @@ class Mover extends Thing{
       entities.push(b);
       playerBullets.push(b);
       SOUNDS.shoot.play();
+    }
+    else if(this.shooting&&this.shootTimer%10==0&&this.shootupgrade==1) {
+    if(win) return;
+    if(this.shooting&&this.shootTimer%10==0) {
+    for (i = 0; i < 5; i++){
+      var b = new Bullet(
+        this.x + Math.cos(this.aimAngle)*50,
+        this.y + Math.sin(this.aimAngle)*50,
+        this.aimAngle + ((i-2)*.1),this);
+      entities.push(b);
+      playerBullets.push(b);
+      SOUNDS.shoot.play();
+    }
+    }
     }
   }
   otherUpdates() {
@@ -133,32 +148,5 @@ class Mover extends Thing{
     canvas.scale(0.3,0.3);
     canvas.rotate(this.aimAngle+Math.PI/2);
     drawHouse(-w/2,-h*3,w,h);
-  }
-}
-
-class Bullet extends Thing{
-  constructor(x,y,angle,parent) {
-    super();
-    this.x = x;
-    this.y = y;
-    this.w = 15;
-    this.h = 15;
-    this.angle = angle+Math.PI/2;
-    this.parent = parent;
-    this.drawShape = drawHouse;
-    this.speed = 4;
-    this.vx = Math.cos(angle)*this.speed;
-    this.vy = Math.sin(angle)*this.speed;
-    this.life = 100;
-    this.color = 'blue';
-  }
-  hit() {
-    this.shouldDelete=true;
-  }
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.life -= 1;
-    if(this.life<=0)this.shouldDelete=true;
   }
 }
