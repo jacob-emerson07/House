@@ -93,7 +93,7 @@ class Mover extends Thing{
     if(this.x>CE.width)this.x=CE.width;
     if(this.y<0)this.y=0;
     if(this.y>CE.height)this.y=CE.height;
-  }
+    }
   updatePlatformer() {
     var {inputX, inputY} = getAxes();
     this.vx = inputX*this.moveSpeed;
