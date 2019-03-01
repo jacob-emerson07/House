@@ -14,20 +14,24 @@
     </div>
     <div class = "gameOptions">
         <div class = "playGame">
-            <a class = "options" href="index.html">Play House</a>
+            <a class = "options"onclick="playHouse()">Play House</a>
         </div>
         <div class = "options">
             <a class = "options">Options</a>
         </div>
         <div class = "quit">
-            <a class = "options">Quit House</a>
+            <a class = "options" onclick="windowClose()">Quit House</a>
         </div>
-        <!--<ul>
-            <li><a>Play House</a></li>
-            <li><a>Settings</a></li>
-            <li><a>Quit House</a></li>
-        </ul>-->
     </div>
-    <script src = "billy_menu.js"></script>
+    <script language="JavaScript" type="text/javascript">
+        function windowClose(){
+            window.open('','_parent','');
+            window.close();
+        }
+
+        function playHouse(){
+            window.location.href="index.html";
+        }
+    </script>
 </body>
 </html>
