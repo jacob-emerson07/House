@@ -5,7 +5,7 @@ html, body {
 body {
     margin: 0;
     padding: 0;
-    background: grey;
+    background: black;
     width: 100%;
     height: 100%;
     -webkit-user-select: none; /* Safari */
@@ -28,18 +28,62 @@ canvas {
     touch-action: none;
 }
 
-ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 200px;
-}
-
-li{
-    display: block;
-    border: 2px solid grey;
+button{
+    border: 5px solid grey;
     background-color: darkred;
     text-align: center;
     font-size: 25px;
     color: white;
+    width: 25%;
+    height: 50%;
+    margin: 0 auto;
+    display: block;
+    padding-top: 15px;
 }
+
+a{
+    border: 5px solid grey;
+    background-color: darkred;
+    text-align: center;
+    font-size: 25px;
+    color: white;
+    width: 25%;
+    height: 50%;
+    margin: 0 auto;
+    display: block;
+    padding-top: 15px;
+}
+
+a:hover{
+    color: black;
+}
+
+.playGame{
+    padding-bottom: 25px;
+}
+
+.options{
+    padding-bottom: 25px;
+}
+
+.quit{
+    padding-bottom: 100px;
+}
+
+.houseLogo{
+    text-align: center;
+    display: inline-block;
+    position: relative;
+    margin: 0 auto;
+    padding: 150px 50px 25px 350px;
+    width: 50%;
+}
+
+
+.text{
+    font-size: 100px;
+    color: white;
+    text-align: center;
+
+}
+
