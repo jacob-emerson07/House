@@ -111,7 +111,12 @@ function spawnEnemy() {
 	spawnCount = -1
 	  }
 	  else if(spawnLevel == 3){
-	entities.push(new mansionBoss(x,y))
+	entities.push(new neighborhoodBoss(x,y))
+	spawnCount = -1
+	  }
+	  else if(spawnLevel == 4){
+	entities.push(new mansionBoss(x,y));
+	spawnCount = -1
 	  }
   }
 }
@@ -164,7 +169,7 @@ function update() {
     canvas.globalAlpha = 1;
     spawnLevel +=1
     window.coinCount = test.coins
-    if(spawnLevel==4){
+    if(spawnLevel==5){
     	start(1)
     }
     else{

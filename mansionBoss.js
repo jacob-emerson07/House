@@ -8,8 +8,9 @@ class mansionBoss extends Enemy {
     this.life = 1000;
     this.speed = .5;
     SOUNDS.boxbossSpawn.play();
-    entities.push(new boxBoss(this.x,this.y));
-    entities.push(new HouseBoss(this.x,this.y));
+    entities.push(new boxBoss(x,y));
+    entities.push(new HouseBoss(x,y));
+    entities.push(new neighborhoodBoss(x, y));
     this.state = 0;
     this.stateTimer = 200;
     this.dx = 0;
