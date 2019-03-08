@@ -71,6 +71,8 @@ var started = 0;
 var player;
 var weapons = [];
 var limit = 0
+var random = 0
+var random2 = 0
 weapons.default = {
   speed: 10,
   color: '#fff',
@@ -85,10 +87,36 @@ weapons.shotgun = {
 for(var i=0;i<255;++i)keys[i]=0;
 
 function spawnEnemy() {
-	if (limit == 0){
-	    entities.push(new NeigborhoodBoss(50,400));
-	    entities.push(new NeigborhoodBoss2(750,50));
-	    limit = 1
+	if (limit < 100){
+		random = Math.random() * 350
+
+		entities.push(new TrailerEnemy(-50, random+50));
+	    limit += 1
+		
+	}
+}
+
+
+function spawnEnemy2() {
+	if (limit < 100){
+		random2 = Math.random() * 10
+		
+		
+		if (0 <= random2 && random2 < 4){
+			entities.push(new HomingTrailerEnemy(-50, player.y));
+		    limit += 1
+		}
+		    
+		else if (4 <= random2 && random2 < 7){
+			entities.push(new ShootyTrailerEnemy(-50, 50));
+		    limit += 1 
+		}
+		
+		else if (7 <= random2 && random2 < 10){
+			random = Math.random() * 350
+			entities.push(new BurstTrailerEnemy(-50, random+50));
+		    limit += 1 
+		}
 	}
 }
 
@@ -96,10 +124,17 @@ var spawnCount;
 
 function update() {
   spawnTimer += 1;
+  spawnTimer2 += 1
   if(spawnTimer>=spawnTime&&started) {
     spawnEnemy();
     spawnTimer = 0;
   }
+  
+  
+  if(spawnTimer2>=spawnTime2&&started) {
+	  spawnEnemy2();
+	  spawnTimer2 = 0;
+	  }
   for(var i=0;i<entities.length;++i) {
     var e = entities[i];
     e.update();
@@ -237,8 +272,10 @@ function start(level) {
   playerBullets = [];
   spawnCount = 0;
   spawnTime = 50;
+  spawnTime2 = 180;
   spawnLevel = level;
   spawnTimer = 0;
+  spawnTimer2 = 0;
   frameCount = 0;
   lifeBlink = 0;
   touchOn = false;
